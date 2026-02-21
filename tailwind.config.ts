@@ -11,8 +11,8 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
-        display: ["var(--font-rubik)", "sans-serif"], 
+        sans: ["var(--font-open-sans)", "sans-serif"],
+        rubik: ["var(--font-rubik)", "sans-serif"],
       },
       colors: {
         border: "oklch(var(--border))",
