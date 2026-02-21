@@ -1,6 +1,6 @@
 "use client";
 
-import { useNewDrops } from "@/hooks/useProducts";
+import { useNewDrops } from "@/hooks/useServerData";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProductItem from "./ProductItem";

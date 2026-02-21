@@ -25,7 +25,7 @@ const ProductItem = ({ product }: ProductProp) => {
         />
       </div>
       <div className="space-y-3">
-        <h3 className="text-secondary font-semibold md:text-2xl uppercase leading-tight">
+        <h3 className="text-secondary font-semibold md:text-2xl uppercase leading-tight line-clamp-2">
           {product.title}
         </h3>
         <Button
