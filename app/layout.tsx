@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import QueryProvider from "@/context/QueryProvider";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
+import StoreProvider from "@/context/StoreProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -32,11 +34,14 @@ export default function RootLayout({
       <body className={`${rubik.variable} ${openSans.variable} antialiased`}>
         <ThemeProvider>
           <QueryProvider>
-            <div className="font-rubik  flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300">
-              <Navbar />
-              <main className="grow">{children}</main>
-              <Footer />
-            </div>
+            <StoreProvider>
+              <div className="font-rubik  flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300">
+                <Navbar />
+                <main className="grow">{children}</main>
+                <Footer />
+              </div>
+              <Toaster position="top-right" />
+            </StoreProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>
