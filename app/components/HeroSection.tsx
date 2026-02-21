@@ -42,7 +42,7 @@ export default function HeroSection() {
             </p>
             <Button
               size="sm"
-              className="bg-primary hover:bg-[#3b54b5] text-white font-semibold uppercase px-6 py-5 rounded-lg text-base shadow-lg transition-all active:scale-95"
+              className="bg-primary hover:bg-[#3b54b5] text-white font-medium uppercase px-6 py-5 rounded-lg text-sm shadow-lg transition-all active:scale-95"
             >
               Shop Now
             </Button>
