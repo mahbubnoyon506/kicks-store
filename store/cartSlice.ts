@@ -36,6 +36,26 @@ const cartSlice = createSlice({
         state.items.push(action.payload);
       }
     },
+    removeFromCart: (
+      state,
+      action: PayloadAction<{ id: number; size: number }>,
+    ) => {
+      state.items = state.items.filter(
+        (item) =>
+          !(item.id === action.payload.id && item.size === action.payload.size),
+      );
+    },
+    updateQuantity: (
+      state,
+      action: PayloadAction<{ id: number; size: number; quantity: number }>,
+    ) => {
+      const item = state.items.find(
+        (i) => i.id === action.payload.id && i.size === action.payload.size,
+      );
+      if (item && action.payload.quantity > 0) {
+        item.quantity = action.payload.quantity;
+      }
+    },
     toggleWishlist: (state, action: PayloadAction<number>) => {
       const index = state.wishlist.indexOf(action.payload);
       if (index >= 0) {
@@ -47,5 +67,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, toggleWishlist } = cartSlice.actions;
+export const { addToCart, toggleWishlist, removeFromCart, updateQuantity } =
+  cartSlice.actions;
 export default cartSlice.reducer;
