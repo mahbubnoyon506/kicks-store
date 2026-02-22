@@ -7,6 +7,7 @@ import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 import StoreProvider from "@/context/StoreProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -37,7 +38,9 @@ export default function RootLayout({
             <StoreProvider>
               <div className="font-rubik  flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300">
                 <Navbar />
-                <main className="grow">{children}</main>
+                <main className="grow">
+                  {children} <Analytics />
+                </main>
                 <Footer />
               </div>
               <Toaster position="top-right" />
