@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Review } from "@/lib/types";
+import SliderComponent from "@/components/shared/SliderComponent";
 
 const imageId = Math.floor(Math.random() * 10 + 1);
 
@@ -40,16 +41,16 @@ const DUMMY_REVIEWS: Review[] = [
 ];
 
 const ReviewCard = ({ review }: { review: Review }) => (
-  <div className="px-3">
-    <div className="bg-white rounded-[32px] overflow-hidden shadow-sm flex flex-col">
+  <div className="">
+    <div className="bg-white rounded-3xl md:rounded-[32px] overflow-hidden shadow-sm flex flex-col">
       {/* Review Content */}
-      <div className="p-8 space-y-4">
+      <div className="p-4 md:p-8 space-y-4">
         <div className="flex justify-between items-start">
           <div className="space-y-1">
-            <h4 className="text-secondary text-2xl font-semibold appercase">
+            <h4 className="text-secondary text-xl md:text-2xl font-semibold appercase">
               {review.title}
             </h4>
-            <p className="text-secondary/60 font-sans leading-tight">
+            <p className="text-sm md:text-base text-secondary/60 font-sans leading-tight">
               {review.testimonial}
             </p>
           </div>
@@ -67,7 +68,7 @@ const ReviewCard = ({ review }: { review: Review }) => (
           {[...Array(5)].map((_, i) => (
             <Star key={i} size={16} fill="#FFA52F" color="#FFA52F" />
           ))}
-          <span className="ml-2 font-display font-black text-secondary">
+          <span className="ml-2   font-black text-secondary">
             {review.rating.toFixed(1)}
           </span>
         </div>
@@ -88,9 +89,9 @@ const ReviewCard = ({ review }: { review: Review }) => (
 
 export default function ReviewsSection() {
   return (
-    <section className="bg-[#E7E7E3] py-20 px-4">
+    <section className=" py-8 md:py-16 px-4">
       <div className="container mx-auto ">
-        <div className="flex justify-between items-center mb-12">
+        <div className="flex justify-between items-center pb-8 md:pb-16">
           <h2 className="text-secondary text-2xl md:text-6xl font-semibold uppercase">
             Reviews
           </h2>
@@ -103,10 +104,17 @@ export default function ReviewsSection() {
         </div>
 
         {/* Reusing the custom slick logic */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-4">
           {DUMMY_REVIEWS.map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}
+        </div>
+        <div className="md:hidden">
+          <SliderComponent title="" slidesToShow={1} slidesToScroll={1}>
+            {DUMMY_REVIEWS?.map((review, index) => (
+              <ReviewCard key={review.id} review={review} />
+            ))}
+          </SliderComponent>
         </div>
       </div>
     </section>

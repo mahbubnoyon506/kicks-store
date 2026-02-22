@@ -3,10 +3,10 @@ import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <section className="container mx-auto max-w-7xl px-4 py-8 font-display">
+    <section className="container mx-auto max-w-7xl px-4">
       {/* Brand Slogan*/}
       <div className="mb-8 overflow-hidden">
-        <h2 className="text-[11vw] md:text-[14vw] font-black leading-[0.8] tracking-wide uppercase text-center">
+        <h2 className="text-[11vw] md:text-[14vw] font-black leading-[0.8] tracking-wide uppercase text-center md:py-8">
           <span className="text-secondary">Do It</span>
           <span className="text-primary"> Right</span>
         </h2>

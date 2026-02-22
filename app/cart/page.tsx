@@ -8,12 +8,20 @@ import {
   toggleWishlist,
   updateQuantity,
 } from "@/store/cartSlice";
-import { Heart, Trash2, ChevronDown, Minus, Plus } from "lucide-react";
+import {
+  Heart,
+  Trash2,
+  ChevronDown,
+  Minus,
+  Plus,
+  HeartIcon,
+} from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 export default function CartPage() {
   const { items } = useSelector((state: RootState) => state.cart);
+  const wishlistIds = useSelector((state: RootState) => state.cart.wishlist);
   const dispatch = useDispatch();
 
   // Financial Calculations
@@ -25,26 +33,33 @@ export default function CartPage() {
   const total = subtotal + delivery;
 
   return (
-    <div className="container mx-auto max-w-7xl px-4 py-12 font-body bg-[#F2F2F2]">
-      <div className="flex flex-col lg:flex-row gap-8">
+    <div className="container mx-auto px-4">
+      <h2 className="text-2xl md:text-3xl text-secondary font-semibold mb-2">
+        Saving to celebrate{" "}
+      </h2>
+      <p className="font-sans text-xs md:text-sm text-secondary/60 mb-5 md:mb-10">
+        Enjoy up to 60% off thousands of styles during the End of Year sale -
+        while suppiles last. No code needed. <br /> Join us or Sign-in
+      </p>
+      <div className="flex flex-col lg:flex-row gap-4 md:gap-8">
         {/* Left: Your Bag Section */}
-        <div className="flex-1 bg-white rounded-[24px] p-6 md:p-10 shadow-sm">
-          <h2 className="text-3xl font-display font-black uppercase mb-2">
+        <div className="flex-1 bg-white rounded-md md:rounded-3xl p-4 md:p-6">
+          <h2 className="text-2xl md:text-3xl text-secondary font-semibold mb-2">
             Your Bag
           </h2>
-          <p className="text-sm text-[#232321]/60 mb-10">
+          <p className="font-sans text-xs md:text-sm text-secondary/60 mb-5 md:mb-10">
             Items in your bag are not reserved — check out now to make them
             yours.
           </p>
 
-          <div className="space-y-10">
+          <div className="space-y-5 md:space-y-10">
             {items.map((item) => (
               <div
                 key={`${item.id}-${item.size}`}
-                className="flex flex-col sm:flex-row gap-6"
+                className="flex gap-3 md:gap-6"
               >
                 {/* Product Image */}
-                <div className="relative w-full sm:w-48 aspect-square bg-[#ECEEF0] rounded-[24px] overflow-hidden">
+                <div className="relative min-w-32 aspect-square bg-[#ECEEF0] rounded-[24px] overflow-hidden">
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -54,30 +69,32 @@ export default function CartPage() {
                 </div>
 
                 {/* Product Info */}
-                <div className="flex-1 space-y-3">
+                <div className="flex-1 space-y-1 md:space-y-3">
                   <div className="flex justify-between items-start">
-                    <h3 className="text-xl font-display font-black uppercase text-[#232321]">
+                    <h3 className="md:text-2xl font-semibold uppercase text-secondary">
                       {item.title}
                     </h3>
-                    <p className="text-[#4A69E2] text-xl font-display font-black">
+                    <p className="hidden md:block text-primary md:text-2xl font-semibold">
                       ${(item.price * item.quantity).toFixed(2)}
                     </p>
                   </div>
-                  <p className="text-sm font-bold text-[#232321]/60 uppercase">
+                  <p className="text-sm md:text-xl font-sans font-semibold text-secondary/80 capitalize">
                     {item.color}
                   </p>
 
-                  <div className="flex items-center gap-8 pt-2">
+                  <div className="flex flex-col md:flex-row md:items-center md:gap-8 pt-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold uppercase text-[#232321]/60">
+                      <span className="text-sm md:text-xl font-sans font-semibold text-secondary/80 capitalize">
                         Size:
                       </span>
-                      <span className="text-sm font-black">{item.size}</span>
+                      <span className="text-sm md:text-xl font-sans font-semibold font-secondary">
+                        {item.size}
+                      </span>
                     </div>
 
                     {/* Quantity Selector Logic */}
                     <div className="flex items-center gap-4">
-                      <span className="text-sm font-bold uppercase text-[#232321]/60">
+                      <span className="text-sm md:text-xl font-sans font-semibold text-secondary/80 capitalize">
                         Quantity:
                       </span>
                       <div className="flex items-center border border-black/10 rounded-lg overflow-hidden">
@@ -95,7 +112,7 @@ export default function CartPage() {
                         >
                           <Minus size={14} />
                         </button>
-                        <span className="px-3 font-black text-sm">
+                        <span className="px-3 text-sm md:text-xl font-sans font-semibold font-secondary">
                           {item.quantity}
                         </span>
                         <button
@@ -115,14 +132,22 @@ export default function CartPage() {
                       </div>
                     </div>
                   </div>
+                  <p className="block md:hidden text-primary md:text-2xl font-semibold">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </p>
 
                   {/* Actions */}
-                  <div className="flex gap-4 pt-6">
-                    <button className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
+                  <div className="flex gap-2">
+                    <button
+                      className="cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors"
+                      onClick={() => dispatch(toggleWishlist(item.id))}
+                    >
                       <Heart
-                        onClick={() => dispatch(toggleWishlist(item.id))}
                         size={22}
-                        className="text-[#232321]"
+                        className="text-secondary"
+                        fill={
+                          wishlistIds.includes(item.id) ? "#17181A" : "none"
+                        }
                       />
                     </button>
                     <button
@@ -131,7 +156,7 @@ export default function CartPage() {
                           removeFromCart({ id: item.id, size: item.size }),
                         )
                       }
-                      className="p-2 hover:bg-red-50 rounded-xl transition-colors text-red-500"
+                      className="cursor-pointer p-2 hover:bg-red-50 rounded-xl transition-colors text-red-500"
                     >
                       <Trash2 size={22} />
                     </button>
@@ -142,7 +167,7 @@ export default function CartPage() {
 
             {items.length === 0 && (
               <div className="py-20 text-center">
-                <p className="text-xl font-display font-black uppercase opacity-20">
+                <p className="text-xl font-sans font-semibold uppercase opacity-20">
                   Your bag is empty
                 </p>
               </div>
@@ -151,38 +176,45 @@ export default function CartPage() {
         </div>
 
         {/* Right: Order Summary */}
-        <div className="w-full lg:w-[400px] space-y-6">
-          <div className="bg-white/50 backdrop-blur-sm p-8 rounded-[24px] space-y-6">
-            <h2 className="text-2xl font-display font-black uppercase">
+        <div className=" bg-white md:bg-background rounded-md">
+          <div className=" backdrop-blur-sm p-4 md:p-6 rounded-[24px] space-y-3 md:space-y-6">
+            <h2 className="text-xl md:text-3xl text-secondary font-semibold">
               Order Summary
             </h2>
 
             <div className="space-y-4 font-bold uppercase text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">
+                <span className="md:text-xl font-sans font-semibold text-secondary capitalize">
                   {items.length} ITEM
                 </span>
                 <span>${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Delivery</span>
+                <span className="md:text-xl font-sans font-semibold text-secondary capitalize">
+                  Delivery
+                </span>
                 <span>${delivery.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Sales Tax</span>
+                <span className="md:text-xl font-sans font-semibold text-secondary capitalize">
+                  Sales Tax
+                </span>
                 <span>-</span>
               </div>
-              <div className="flex justify-between pt-4 border-t border-black/10 text-lg">
+              <div className="flex justify-between pt-4 md:text-xl font-semibold text-secondary capitalize">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>
               </div>
             </div>
 
-            <Button className="w-full bg-[#232321] hover:bg-black text-white h-14 font-display font-black uppercase rounded-xl">
+            <Button
+              size="sm"
+              className="w-full bg-secondary text-white font-medium uppercase px-6 py-5 rounded-lg text-sm"
+            >
               Checkout
             </Button>
 
-            <button className="w-full text-xs font-bold uppercase underline text-center">
+            <button className="md:text-xl font-sans font-semibold text-secondary underline">
               Use a promo code
             </button>
           </div>

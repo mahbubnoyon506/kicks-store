@@ -4,9 +4,12 @@ import { useNewDrops } from "@/hooks/useServerData";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProductItem from "./ProductItem";
+import { useGetProductsQuery } from "@/store/service/api";
 
 export default function ProductsSection() {
-  const { data: products, isLoading, isError } = useNewDrops(4);
+  // const { data: products, isLoading, isError } = useNewDrops(4);
+  const { data: products, isLoading, isError } = useGetProductsQuery();
+  // console.log(allProducts);
 
   if (isLoading) {
     return (
@@ -34,9 +37,9 @@ export default function ProductsSection() {
   }
 
   return (
-    <section className="container mx-auto max-w-7xl px-4 py-16">
+    <section className="container mx-auto max-w-7xl px-4 py-8 md:py-16">
       <div className="flex justify-between items-end mb-10">
-        <h2 className="text-secondary text-2xl md:text-7xl font-display font-semibold uppercase leading-[0.9]">
+        <h2 className="text-secondary text-2xl md:text-7xl font-semibold capitalize md:uppercase leading-[0.9]">
           Don&apos;t Miss Out <br /> New Drops
         </h2>
         <Button
@@ -47,8 +50,8 @@ export default function ProductsSection() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {products?.map((product) => (
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        {products?.slice(0, 4).map((product) => (
           <ProductItem key={product.id} product={product} />
         ))}
       </div>

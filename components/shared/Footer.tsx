@@ -18,11 +18,11 @@ const FOOTER_LINKS = {
 
 export default function Footer() {
   return (
-    <footer className="w-full px-4 pb-8">
+    <footer className="w-full px-4 py-4 md:py-8">
       <div className="container mx-auto">
         {/* Top Section: KicksPlus Club CTA */}
         <div className="bg-primary rounded-[48px] pt-8 md:pt-12 px-8 md:px-12 pb-20 md:pb-32 flex flex-col md:flex-row items-center gap-5">
-          <div className="text-center md:text-left flex-1">
+          <div className=" flex-1">
             <h2 className="text-3xl md:text-5xl font-black text-primary-foreground leading-tight uppercase mb-4">
               Join our KicksPlus <br /> Club & get 15% off
             </h2>
@@ -55,21 +55,21 @@ export default function Footer() {
 
         {/* Bottom Section: Site Map & Info */}
         <div className="bg-secondary rounded-[48px] pt-8 md:pt-12 px-8 md:px-12 text-background -mt-12 md:-mt-20 ">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-12">
             {/* About Us */}
-            <div className="space-y-6">
-              <h3 className="text-accent text-2xl font-bold uppercase tracking-tight">
+            <div className="space-y-3 md:space-y-6">
+              <h3 className="text-accent text-xl md:text-2xl font-bold uppercase tracking-tight">
                 About us
               </h3>
-              <p className="text-sm leading-relaxed opacity-80 max-w-xs font-medium">
+              <p className="text-sm md:text-lg leading-relaxed opacity-80 max-w-xs font-medium">
                 We are the biggest hyperstore in the universe. We got you all
                 covered with our exclusive collections and latest drops.
               </p>
             </div>
 
             {/* Categories */}
-            <div className="space-y-6">
-              <h3 className="text-accent text-2xl font-bold uppercase tracking-tight">
+            <div className="space-y-3 md:space-y-6">
+              <h3 className="text-accent text-xl md:text-2xl font-bold uppercase tracking-tight">
                 Categories
               </h3>
               <ul className="space-y-3">
@@ -77,7 +77,7 @@ export default function Footer() {
                   <li key={item}>
                     <Link
                       href="#"
-                      className="text-sm font-semibold opacity-70 hover:opacity-100 transition-opacity"
+                      className="text-sm md:text-lg font-semibold opacity-70 hover:opacity-100 transition-opacity"
                     >
                       {item}
                     </Link>
@@ -87,8 +87,8 @@ export default function Footer() {
             </div>
 
             {/* Company */}
-            <div className="space-y-6">
-              <h3 className="text-accent text-2xl font-bold uppercase tracking-tight">
+            <div className="space-y-3 md:space-y-6">
+              <h3 className="text-accent text-xl md:text-2xl font-bold uppercase tracking-tight">
                 Company
               </h3>
               <ul className="space-y-3">
@@ -96,7 +96,7 @@ export default function Footer() {
                   <li key={item}>
                     <Link
                       href="#"
-                      className="text-sm font-semibold opacity-70 hover:opacity-100 transition-opacity"
+                      className="text-sm md:text-lg font-semibold opacity-70 hover:opacity-100 transition-opacity"
                     >
                       {item}
                     </Link>
@@ -106,8 +106,8 @@ export default function Footer() {
             </div>
 
             {/* Follow Us */}
-            <div className="space-y-6">
-              <h3 className="text-accent text-2xl font-bold uppercase tracking-tight">
+            <div className="space-y-3 md:space-y-6">
+              <h3 className="text-accent text-xl md:text-2xl font-bold uppercase tracking-tight">
                 Follow us
               </h3>
               <div className="flex gap-4">

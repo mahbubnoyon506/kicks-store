@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart, toggleWishlist } from "@/store/cartSlice";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
@@ -11,10 +11,13 @@ import Image from "next/image";
 import { useGetProductByIdQuery } from "@/store/service/api";
 import SizeSelector from "../components/SizeSelector";
 import { toast } from "sonner";
+import { RootState } from "@/store";
+import SimilarProducts from "@/app/components/SimilarProducts";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const wishlistIds = useSelector((state: RootState) => state.cart.wishlist);
 
   const {
     data: product,
@@ -24,13 +27,10 @@ export default function ProductDetails() {
 
   const [selectedSize, setSelectedSize] = useState(38);
   const [selectedColor, setSelectedColor] = useState("Shadow Navy");
-  console.log(product);
 
   if (isLoading)
     return (
-      <div className="p-20 text-center font-display font-black">
-        LOADING PRODUCT...
-      </div>
+      <div className="p-20 text-center font-semibold">LOADING PRODUCT...</div>
     );
   if (isError || !product)
     return (
@@ -56,53 +56,59 @@ export default function ProductDetails() {
   };
 
   return (
-    <div className="container mx-auto max-w-7xl px-4 py-12">
-      <div className="flex flex-col lg:flex-row gap-12">
+    <div className="container mx-auto px-4">
+      <div className="flex flex-col lg:flex-row gap-6 md:gap-12">
         {/* Gallery Grid: Displays 4 angles of the shoe */}
-        <div className="flex-1 grid grid-cols-2 gap-4">
+        <div className="flex-1 grid md:grid-cols-2 gap-4 rounded-xl md:rounded-[48px] overflow-hidden">
           {product.images.slice(0, 4).map((img, i) => (
-            <div
-              key={i}
-              className="relative aspect-square bg-[#E7E7E3] rounded-[32px] overflow-hidden"
-            >
+            <div key={i} className="">
               <Image
                 src={img.replace(/[\[\]"]/g, "")}
                 alt={product.title}
-                fill
-                className="object-cover hover:scale-105 transition-transform"
+                width={500}
+                height={500}
+                className="w-full h-full object-cover hover:scale-105 transition-transform"
               />
             </div>
           ))}
         </div>
 
         {/* Product Configuration Sidebar */}
-        <div className="w-full lg:w-105 space-y-8">
-          <header className="space-y-4">
-            <span className="bg-[#4A69E2] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg uppercase">
+        <div className="w-full lg:w-105 space-y-4 md:space-y-8">
+          <div className="space-y-4">
+            <div className="inline-block bg-primary text-white font-medium uppercase px-4 py-3 rounded-xl text-xs">
               New Release
-            </span>
-            <h1 className="text-4xl md:text-5xl font-display font-black uppercase leading-[1.1]">
+            </div>
+            <h1 className="text-secondary text-xl md:text-3xl font-semibold uppercase">
               {product.title}
             </h1>
-            <p className="text-[#4A69E2] text-2xl font-black">
+            <p className="text-primary text-2xl font-semibold">
               ${product.price.toFixed(2)}
             </p>
-          </header>
+          </div>
 
           {/* Color Selector with Design Hex codes */}
           <div className="space-y-4">
-            <h3 className="font-display font-black uppercase text-sm">
+            <h3 className="text-secondary font-semibold">
               Color - {selectedColor}
             </h3>
             <div className="flex gap-3">
-              <button
-                onClick={() => setSelectedColor("Shadow Navy")}
-                className={`w-8 h-8 rounded-full bg-[#232321] border-2 ${selectedColor === "Shadow Navy" ? "border-[#4A69E2]" : "border-transparent"}`}
-              />
-              <button
-                onClick={() => setSelectedColor("Army Green")}
-                className={`w-8 h-8 rounded-full bg-[#707a64] border-2 ${selectedColor === "Army Green" ? "border-[#4A69E2]" : "border-transparent"}`}
-              />
+              <div
+                className={`rounded-full p-1 cursor-pointer  border-3 ${selectedColor === "Shadow Navy" ? "border-secondary" : "border-transparent"}`}
+              >
+                <div
+                  onClick={() => setSelectedColor("Shadow Navy")}
+                  className={`w-7 h-7 rounded-full bg-[#253043] `}
+                />
+              </div>
+              <div
+                className={`rounded-full p-1 cursor-pointer  border-3 ${selectedColor === "Army Green" ? "border-secondary" : "border-transparent"}`}
+              >
+                <div
+                  onClick={() => setSelectedColor("Army Green")}
+                  className={`w-7 h-7 rounded-full bg-[#707E6E] `}
+                />
+              </div>
             </div>
           </div>
 
@@ -113,37 +119,48 @@ export default function ProductDetails() {
           />
 
           {/* Action Buttons: Add to Cart & Wishlist */}
-          <div className="flex gap-3 pt-4">
+          <div className="space-y-3">
+            <div className="flex gap-3 pt-4">
+              <div className="w-full">
+                <Button
+                  onClick={handleAddToCart}
+                  size="sm"
+                  className="w-full bg-secondary text-white font-medium uppercase px-6 py-5 rounded-lg text-sm"
+                >
+                  Add to Cart
+                </Button>
+              </div>
+              <Button
+                variant={
+                  wishlistIds.includes(product.id) ? "secondary" : "outline"
+                }
+                onClick={() => dispatch(toggleWishlist(product.id))}
+                className="h-10 w-10 rounded-lg border-2 border-[#232321]"
+              >
+                <Heart size={24} />
+              </Button>
+            </div>
+
             <Button
-              onClick={handleAddToCart}
-              className="flex-1 bg-[#232321] text-white h-16 font-display font-black uppercase rounded-xl hover:bg-black"
+              size="sm"
+              className="w-full bg-primary hover:bg-secondary text-white font-medium uppercase px-6 py-5 rounded-lg text-sm"
             >
-              Add to Cart
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => dispatch(toggleWishlist(product.id))}
-              className="h-16 w-16 rounded-xl border-2 border-[#232321]"
-            >
-              <Heart size={24} />
+              Buy It Now
             </Button>
           </div>
 
-          <Button className="w-full bg-[#4A69E2] text-white h-16 font-display font-black uppercase rounded-xl">
-            Buy It Now
-          </Button>
-
           {/* Product Description Section */}
-          <div className="pt-10 border-t border-black/10">
-            <h3 className="font-display font-black uppercase mb-4">
+          <div className="">
+            <h3 className="text-secondary font-semibold uppercase mb-2">
               About the product
             </h3>
-            <p className="font-body text-[#232321]/70 leading-relaxed">
+            <p className="font-sans text-secondary leading-relaxed">
               {product.description}
             </p>
           </div>
         </div>
       </div>
+      <SimilarProducts />
     </div>
   );
 }

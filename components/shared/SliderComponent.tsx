@@ -9,6 +9,7 @@ interface ReusableSliderProps {
   children: React.ReactNode;
   slidesToShow?: number;
   slidesToScroll?: number;
+  rounded?: boolean;
 }
 
 const SliderComponent = ({
@@ -16,6 +17,8 @@ const SliderComponent = ({
   children,
   slidesToShow = 2,
   slidesToScroll = 2,
+
+  rounded = false,
 }: ReusableSliderProps) => {
   const sliderRef = useRef<Slider | null>(null);
 
@@ -31,7 +34,7 @@ const SliderComponent = ({
     responsive: [
       {
         breakpoint: 768,
-        settings: { slidesToShow: 1 },
+        settings: { slidesToShow: 1, slidesToScroll: 1 },
       },
     ],
   };
@@ -39,29 +42,34 @@ const SliderComponent = ({
   return (
     <div className="w-full">
       {/* Header with Title and Arrows */}
-      <div className="flex justify-between items-center mb-8 md:mb-12">
-        <h2 className="text-white text-2xl md:text-6xl font-semibold uppercase">
-          {title}
-        </h2>
-        <div className="flex gap-2">
-          <button
-            onClick={() => sliderRef.current?.slickPrev()}
-            className="p-3 bg-white/10 rounded-lg text-white hover:bg-primary transition-colors"
-          >
-            <ChevronLeft size={24} />
-          </button>
-          <button
-            onClick={() => sliderRef.current?.slickNext()}
-            className="p-3 bg-white/10 rounded-lg text-white hover:bg-primary transition-colors"
-          >
-            <ChevronRight size={24} />
-          </button>
+      {title ? (
+        <div className="container mx-auto px-4 md:px-0 flex justify-between items-center mb-8 md:mb-12">
+          <h2 className="text-white text-2xl md:text-6xl font-semibold uppercase">
+            {title}
+          </h2>
+          <div className="flex gap-2">
+            <button
+              onClick={() => sliderRef.current?.slickPrev()}
+              className="p-1 bg-white/10 rounded-lg text-white hover:bg-primary transition-colors"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button
+              onClick={() => sliderRef.current?.slickNext()}
+              className="p-1 bg-white/10 rounded-lg text-white hover:bg-primary transition-colors"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </div>
         </div>
+      ) : null}
+      <div
+        className={`${rounded ? "rounded-tl-[48px]" : ""} w-full overflow-hidden`}
+      >
+        <Slider ref={sliderRef} {...settings}>
+          {children}
+        </Slider>
       </div>
-
-      <Slider ref={sliderRef} {...settings}>
-        {children}
-      </Slider>
     </div>
   );
 };

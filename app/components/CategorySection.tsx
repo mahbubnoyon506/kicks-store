@@ -15,8 +15,6 @@ const CategoryCard = ({
   image: string;
   isOddItem: boolean;
 }) => {
-  console.log(isOddItem);
-
   return (
     <div className=" ">
       <div
@@ -40,7 +38,7 @@ const CategoryCard = ({
         </div>
         {/* <div className="absolute inset-0 bg-linear-to-t from-white/80 via-transparent to-transparent" /> */}
         <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end">
-          <h3 className="text-secondary text-4xl font-semibold uppercase leading-none">
+          <h3 className="text-secondary text-2xl md:text-4xl font-semibold capitalize md:uppercase leading-none">
             {name} <br /> Shoes
           </h3>
           <button className="bg-secondary p-2 rounded-md text-white hover:bg-accent transition-all">
@@ -54,7 +52,6 @@ const CategoryCard = ({
 
 export default function CategoriesSection() {
   const { data: categories, isLoading, isError } = useCategories();
-  console.log(categories);
 
   if (isLoading)
     return (
@@ -66,8 +63,13 @@ export default function CategoriesSection() {
 
   return (
     <section className="bg-secondary pt-8 md:pt-12">
-      <div className="container mx-auto flex justify-end">
-        <SliderComponent title="Categories" slidesToShow={2} slidesToScroll={2}>
+      <div className="md:pl-4 flex justify-end">
+        <SliderComponent
+          title="Categories"
+          slidesToShow={2}
+          slidesToScroll={2}
+          rounded={true}
+        >
           {categories?.map((cat, index) => (
             <CategoryCard
               key={cat.id}
