@@ -1,17 +1,15 @@
----
-
 # KICKS – Premium Sneaker Store
 
 **KICKS** is a high-performance e-commerce frontend built with **Next.js 15+** and **Redux Toolkit**. It features a modern, responsive design tailored for sneaker enthusiasts, integrated with a real-time product API.
 
-## Live Demo & Repository
+## 🚀 Live Demo & Repository
 
-* **Live URL:** [https://kicks-store-five.vercel.app/](https://kicks-store-five.vercel.app/)
-* **Repository:** [https://github.com/mahbubnoyon506/kicks-store](https://github.com/mahbubnoyon506/kicks-store)
+- **Live URL:** [https://kicks-store-five.vercel.app/](https://kicks-store-five.vercel.app/)
+- **Repository:** [https://github.com/mahbubnoyon506/kicks-store](https://github.com/mahbubnoyon506/kicks-store)
 
 ---
 
-## Key Features
+## ✨ Key Features
 
 - **Dynamic Product Management**: Real-time product fetching using **RTK Query** from the Platzi API.
 - **Advanced Shopping Cart**: Add to cart with specific size/color selection, quantity updates, and unique item tracking (ID + Size).
@@ -22,7 +20,7 @@
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 - **Framework**: Next.js (App Router)
 - **State Management**: Redux Toolkit (Slices & API Service)
@@ -32,7 +30,7 @@
 
 ---
 
-## Installation & Setup
+## ⚙️ Installation & Setup
 
 1. **Clone the repo**:
 
