@@ -130,6 +130,8 @@ export default function Footer() {
               alt="Logo"
               width={1400}
               height={300}
+              placeholder="blur"
+              blurDataURL="/assets/images/logo-footer.png"
               className="object-cover"
             />
           </div>
