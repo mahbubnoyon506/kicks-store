@@ -20,7 +20,6 @@ export default function Footer() {
   return (
     <footer className="w-full px-4 py-4 md:py-8">
       <div className="container mx-auto">
-        {/* Top Section: KicksPlus Club CTA */}
         <div className="bg-primary rounded-[48px] pt-8 md:pt-12 px-8 md:px-12 pb-20 md:pb-32 flex flex-col md:flex-row items-center gap-5">
           <div className=" flex-1">
             <h2 className="text-3xl md:text-5xl font-black text-primary-foreground leading-tight uppercase mb-4">
@@ -34,7 +33,7 @@ export default function Footer() {
                 id="input-demo-api-key"
                 type="email"
                 placeholder="Email address"
-                className=""
+                className="placeholder:text-white"
               />
               <Button className="bg-secondary text-background font-bold uppercase tracking-wider hover:bg-foreground/90 transition-colors">
                 Submit

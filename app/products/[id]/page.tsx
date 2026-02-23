@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, toggleWishlist } from "@/store/cartSlice";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,13 @@ import SizeSelector from "../components/SizeSelector";
 import { toast } from "sonner";
 import { RootState } from "@/store";
 import SimilarProducts from "@/app/components/SimilarProducts";
+
+const DUMMY_IMAGES = [
+  "/assets/images/details-image1.png",
+  "/assets/images/details-image2.png",
+  "/assets/images/details-image3.png",
+  "/assets/images/details-image4.png",
+];
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -25,8 +31,24 @@ export default function ProductDetails() {
     isError,
   } = useGetProductByIdQuery(id as string);
 
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [selectedSize, setSelectedSize] = useState(38);
   const [selectedColor, setSelectedColor] = useState("Shadow Navy");
+
+  // Initialize gallery when product data arrives
+  useEffect(() => {
+    if (product?.images) {
+      const cleaned = product.images.map((img) => img.replace(/[\[\]"]/g, ""));
+      setGalleryImages(cleaned);
+    }
+  }, [product]);
+
+  // Fallback handler for specific images in the grid
+  const handleImageError = (index: number) => {
+    const newImages = [...galleryImages];
+    newImages[index] = DUMMY_IMAGES[index % DUMMY_IMAGES.length];
+    setGalleryImages(newImages);
+  };
 
   if (isLoading)
     return (
@@ -34,6 +56,9 @@ export default function ProductDetails() {
     );
 
   const handleAddToCart = () => {
+    if (!product) {
+      return null;
+    }
     dispatch(
       addToCart({
         id: product.id,
@@ -45,10 +70,7 @@ export default function ProductDetails() {
         quantity: 1,
       }),
     );
-    toast.success(`${product.title} added to cart!`, {
-      description: `Size: ${selectedSize}, Color: ${selectedColor}`,
-      icon: "👟",
-    });
+    toast.success(`${product.title} added to cart!`);
   };
 
   return (
@@ -59,13 +81,14 @@ export default function ProductDetails() {
         <div className="flex flex-col lg:flex-row gap-6 md:gap-12">
           {/* Gallery Grid: Displays 4 angles of the shoe */}
           <div className="flex-1 grid md:grid-cols-2 gap-4 rounded-xl md:rounded-[48px] overflow-hidden">
-            {product.images.slice(0, 4).map((img, i) => (
+            {galleryImages.slice(0, 4).map((img, i) => (
               <div key={i} className="">
                 <Image
-                  src={img.replace(/[\[\]"]/g, "")}
+                  src={img}
                   alt={product.title}
                   width={500}
                   height={500}
+                  onError={() => handleImageError(i)}
                   className="w-full h-full object-cover hover:scale-105 transition-transform"
                 />
               </div>

@@ -67,7 +67,7 @@ const SliderComponent = forwardRef((props: SliderProps, ref) => {
   };
 
   const totalItems = React.Children.count(children);
-
+  const pageCount = Math.ceil(totalItems / slidesToScroll);
   return (
     <div className="w-full">
       {/* Internal Navigation Header */}
@@ -110,15 +110,20 @@ const SliderComponent = forwardRef((props: SliderProps, ref) => {
       {/* Internal Pagination Dots */}
       {isEnablePagination && (
         <div className="flex justify-center gap-3 mt-5 mb-3">
-          {Array.from({ length: totalItems }).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => sliderRef.current?.slickGoTo(idx)}
-              className={`cursor-pointer h-2 w-10 transition-all duration-300 rounded-full ${
-                currentSlide === idx ? "w-8 bg-primary" : "w-2 bg-[#B6B6B3]"
-              }`}
-            />
-          ))}
+          {Array.from({ length: pageCount }).map((_, idx) => {
+            const goToIndex = idx * slidesToScroll;
+            return (
+              <button
+                key={idx}
+                onClick={() => sliderRef.current?.slickGoTo(goToIndex)}
+                className={`cursor-pointer h-2 w-10 transition-all duration-300 rounded-full ${
+                  currentSlide === goToIndex
+                    ? "w-8 bg-primary"
+                    : "w-2 bg-[#B6B6B3]"
+                }`}
+              />
+            );
+          })}
         </div>
       )}
     </div>

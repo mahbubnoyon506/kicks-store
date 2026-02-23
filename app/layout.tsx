@@ -43,7 +43,7 @@ export default function RootLayout({
                 </main>
                 <Footer />
               </div>
-              <Toaster position="top-right" />
+              <Toaster position="bottom-right" />
             </StoreProvider>
           </QueryProvider>
         </ThemeProvider>

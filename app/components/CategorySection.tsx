@@ -1,13 +1,12 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-
-import { Skeleton } from "@/components/ui/skeleton";
 import { useCategories } from "@/hooks/useServerData";
 
 import Image from "next/image";
 import SliderComponent from "@/components/shared/SliderComponent";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { useState } from "react";
 
 const CategoryCard = ({
   name,
@@ -18,6 +17,12 @@ const CategoryCard = ({
   image: string;
   isOddItem: boolean;
 }) => {
+  const fallbackImage = isOddItem
+    ? "/assets/images/placeholder-category1.png"
+    : "/assets/images/placeholder-category.png";
+
+  const [imgSrc, setImgSrc] = useState(image);
+
   return (
     <div className=" ">
       <div
@@ -25,20 +30,17 @@ const CategoryCard = ({
       >
         <div className="flex justify-center items-center overflow-hidden">
           <Image
-            src={
-              isOddItem
-                ? "/assets/images/placeholder-category1.png"
-                : "/assets/images/placeholder-category.png"
-            }
+            src={imgSrc}
             alt={name}
+            onError={() => setImgSrc(fallbackImage)}
             placeholder="blur"
-            blurDataURL="/assets/images/placeholder-category.png"
+            blurDataURL={fallbackImage}
             width={480}
             height={600}
             className="object-cover aspect-8/6 transition-transform duration-700 group-hover:scale-110 opacity-80"
           />
         </div>
-        {/* <div className="absolute inset-0 bg-linear-to-t from-white/80 via-transparent to-transparent" /> */}
+        <div className="absolute inset-0 bg-linear-to-t from-white/80 via-transparent to-transparent" />
         <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end">
           <h3 className="text-secondary text-2xl md:text-4xl font-semibold capitalize md:uppercase leading-none">
             {name} <br /> Shoes
@@ -60,7 +62,7 @@ export default function CategoriesSection() {
 
   return (
     <section className="bg-secondary pt-8 md:pt-12">
-      <div className="flex justify-end">
+      <div className="md:pl-8 flex justify-end">
         <SliderComponent
           title="Categories"
           slidesToShow={isSmallScreen ? 1 : 2}

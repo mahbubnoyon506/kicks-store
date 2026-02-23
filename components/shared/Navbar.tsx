@@ -2,16 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  Search,
-  User,
-  ChevronDown,
-  Moon,
-  Sun,
-  Menu,
-  ShoppingCart,
-  X,
-} from "lucide-react";
+import { Search, User, ChevronDown, Moon, Sun, Menu } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,9 +16,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
 const NAV_LINKS = [
-  { name: "New Drops 🔥", href: "/new-drops" },
-  { name: "Men", href: "/men", hasDropdown: true },
-  { name: "Women", href: "/women", hasDropdown: true },
+  { name: "New Drops 🔥", href: "#" },
+  { name: "Men", href: "#", hasDropdown: true },
+  { name: "Women", href: "#", hasDropdown: true },
 ];
 
 export default function Navbar() {
@@ -36,9 +27,9 @@ export default function Navbar() {
   const { items } = useSelector((state: RootState) => state.cart);
 
   return (
-    <header className="py-4 md:py-6">
-      <div className=" sticky top-0 z-20 max-w-7xl mx-auto bg-white rounded-2xl md:rounded-[24px] px-4 md:px-8 py-3 md:py-4 flex items-center justify-between">
-        {/* Mobile Menu Trigger (Tablet & Mobile) */}
+    <header className="sticky top-0 z-20 my-6 px-4">
+      {/* Mobile Menu Trigger (Tablet & Mobile) */}
+      <div className="max-w-7xl mx-auto bg-white rounded-2xl md:rounded-[24px] px-4 md:px-8 py-3 md:py-4 flex items-center justify-between">
         <div className="flex md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>

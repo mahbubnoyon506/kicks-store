@@ -27,7 +27,7 @@ export default function HeroSection() {
         {/* Content Overlay */}
         <div className="absolute inset-0  p-6 md:p-12 flex flex-col justify-end">
           {/* Vertical Badge */}
-          <div className="absolute left-0 top-12 bg-[#232321] text-white px-4 py-3 rounded-r-xl origin-left">
+          <div className="absolute left-0 top-12 bg-secondary text-white px-4 py-3 rounded-r-xl origin-left">
             <p className="text-xs font-semibold uppercase tracking-widest [writing-mode:vertical-lr] rotate-180">
               Nike product of the year
             </p>
