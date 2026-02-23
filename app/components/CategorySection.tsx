@@ -1,11 +1,14 @@
 "use client";
-import SliderComponent from "@/components/shared/SliderComponent";
+
+import { ArrowUpRight } from "lucide-react";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCategories } from "@/hooks/useServerData";
-import { ArrowUpRight } from "lucide-react";
-import Image from "next/image";
 
-// --- Single Category Item Component ---
+import Image from "next/image";
+import SliderComponent from "@/components/shared/SliderComponent";
+import { useIsMobile } from "@/hooks/useIsMobile";
+
 const CategoryCard = ({
   name,
   image,
@@ -18,22 +21,21 @@ const CategoryCard = ({
   return (
     <div className=" ">
       <div
-        className={`relative  group cursor-pointer ${isOddItem ? "rounded-tl-[48px] bg-gray-200" : "rounded-none bg-white"}`}
+        className={`relative  group cursor-pointer overflow-hidden ${isOddItem ? "rounded-tl-[48px] bg-[#ECEEF0]" : "rounded-none bg-[#F6F6F6]"}`}
       >
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center overflow-hidden">
           <Image
-            // src={
-            //   image
-            //     ? image.replace(/[\[\]"]/g, "")
-            //     : "/assets/images/placeholder-category.jpg"
-            // }
-            src="/assets/images/placeholder-category.png"
+            src={
+              isOddItem
+                ? "/assets/images/placeholder-category1.png"
+                : "/assets/images/placeholder-category.png"
+            }
             alt={name}
             placeholder="blur"
             blurDataURL="/assets/images/placeholder-category.png"
             width={480}
             height={600}
-            className="object-contain aspect-8/6 transition-transform duration-700 group-hover:scale-110 opacity-80"
+            className="object-cover aspect-8/6 transition-transform duration-700 group-hover:scale-110 opacity-80"
           />
         </div>
         {/* <div className="absolute inset-0 bg-linear-to-t from-white/80 via-transparent to-transparent" /> */}
@@ -51,24 +53,23 @@ const CategoryCard = ({
 };
 
 export default function CategoriesSection() {
-  const { data: categories, isLoading, isError } = useCategories();
+  const { data: categories, isLoading } = useCategories();
+  const isSmallScreen = useIsMobile();
 
-  if (isLoading)
-    return (
-      <div className="bg-secondary p-20">
-        <Skeleton className="h-125 w-full bg-white/5 rounded-[48px]" />
-      </div>
-    );
-  if (isError) return null;
+  if (isLoading) return <div className="p-20 text-white">Loading...</div>;
 
   return (
     <section className="bg-secondary pt-8 md:pt-12">
-      <div className="md:pl-4 flex justify-end">
+      <div className="flex justify-end">
         <SliderComponent
           title="Categories"
-          slidesToShow={2}
-          slidesToScroll={2}
+          slidesToShow={isSmallScreen ? 1 : 2}
+          slidesToScroll={isSmallScreen ? 1 : 2}
           rounded={true}
+          isEnableNavigation={true}
+          isMultiRow={isSmallScreen ? true : false}
+          titleClassName="text-white text-2xl md:text-6xl"
+          navButtonClassName="bg-white/10"
         >
           {categories?.map((cat, index) => (
             <CategoryCard

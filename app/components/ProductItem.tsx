@@ -27,12 +27,12 @@ const ProductItem = ({ product }: ProductProp) => {
           />
         </div>
         <div className="space-y-3">
-          <h3 className="text-secondary font-semibold md:text-2xl uppercase leading-tight line-clamp-2">
+          <h3 className="text-secondary h-16 font-semibold md:text-2xl uppercase leading-tight line-clamp-2">
             {product.title}
           </h3>
           <Button
             size="sm"
-            className="w-full bg-secondary hover:bg-primary text-white font-medium uppercase px-6 py-5 rounded-lg text-sm shadow-lg transition-all active:scale-95"
+            className="w-full bg-secondary hover:bg-primary text-white font-medium uppercase md:px-6 md:py-5 rounded-lg text-sm shadow-lg transition-all active:scale-95"
           >
             <span className="text-accent">
               View Product -{" "}

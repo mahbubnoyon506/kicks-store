@@ -18,7 +18,7 @@ const DUMMY_REVIEWS: Review[] = [
       "I highly recommend shopping from Kicks. The quality is exceptional.",
     reviewerName: "John Doe",
     reviewerAvatar: `https://i.pravatar.cc/200?img=${imageId + 1}`,
-    productImage: "https://placehold.co/600x600",
+    productImage: "/assets/images/review1.png",
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ const DUMMY_REVIEWS: Review[] = [
     testimonial: "Fast shipping and the sneakers look even better in person!",
     reviewerName: "Jane Smith",
     reviewerAvatar: `https://i.pravatar.cc/200?img=${imageId + 2}`,
-    productImage: "https://placehold.co/600x600",
+    productImage: "/assets/images/review2.png",
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ const DUMMY_REVIEWS: Review[] = [
     testimonial: "The Air Max I bought are the most comfortable shoes I own.",
     reviewerName: "Mike Ross",
     reviewerAvatar: `https://i.pravatar.cc/200?img=${imageId + 3}`,
-    productImage: "https://placehold.co/600x600",
+    productImage: "/assets/images/review3.png",
   },
 ];
 
@@ -77,7 +77,7 @@ const ReviewCard = ({ review }: { review: Review }) => (
       {/* Product Image */}
       <div className="relative aspect-3/2 w-full">
         <Image
-          src="/assets/images/placeholder-category.png"
+          src={review.productImage}
           alt="Reviewed Product"
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"

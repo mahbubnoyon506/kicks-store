@@ -1,68 +1,104 @@
 "use client";
 
-import React, { useRef } from "react";
-import Slider from "react-slick";
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+import Slider, { Settings } from "react-slick";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-interface ReusableSliderProps {
-  title: string;
+interface SliderProps {
+  title?: string;
   children: React.ReactNode;
   slidesToShow?: number;
   slidesToScroll?: number;
   rounded?: boolean;
+  isEnablePagination?: boolean;
+  isEnableNavigation?: boolean;
+  isMultiRow?: boolean;
+  titleClassName?: string;
+  navButtonClassName?: string;
 }
 
-const SliderComponent = ({
-  title,
-  children,
-  slidesToShow = 2,
-  slidesToScroll = 2,
+const SliderComponent = forwardRef((props: SliderProps, ref) => {
+  const {
+    title,
+    children,
+    slidesToShow = 2,
+    slidesToScroll = 1,
+    rounded = false,
+    isEnablePagination = false,
+    isEnableNavigation = false,
+    isMultiRow = false,
+    titleClassName = "",
+    navButtonClassName = "",
+  } = props;
 
-  rounded = false,
-}: ReusableSliderProps) => {
   const sliderRef = useRef<Slider | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const settings = {
+  useImperativeHandle(ref, () => ({
+    slickNext: () => sliderRef.current?.slickNext(),
+    slickPrev: () => sliderRef.current?.slickPrev(),
+  }));
+
+  const settings: Settings = {
     dots: false,
     infinite: true,
-    autoplay: true,
     autoplaySpeed: 3000,
     speed: 2000,
+    autoplay: true,
     slidesToShow: slidesToShow,
     slidesToScroll: slidesToScroll,
     arrows: false,
+    rows: isMultiRow ? 2 : 1,
+    beforeChange: (_, next) => setCurrentSlide(next),
     responsive: [
       {
         breakpoint: 768,
-        settings: { slidesToShow: 1, slidesToScroll: 1 },
+        settings: {
+          slidesToShow: slidesToShow ? slidesToShow : 1,
+          slidesToScroll: slidesToScroll ? slidesToScroll : 1,
+        },
       },
     ],
   };
 
+  const totalItems = React.Children.count(children);
+
   return (
     <div className="w-full">
-      {/* Header with Title and Arrows */}
-      {title ? (
+      {/* Internal Navigation Header */}
+      {(title || isEnableNavigation) && (
         <div className="container mx-auto px-4 md:px-0 flex justify-between items-center mb-8 md:mb-12">
-          <h2 className="text-white text-2xl md:text-6xl font-semibold uppercase">
-            {title}
-          </h2>
-          <div className="flex gap-2">
-            <button
-              onClick={() => sliderRef.current?.slickPrev()}
-              className="p-1 bg-white/10 rounded-lg text-white hover:bg-primary transition-colors"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            <button
-              onClick={() => sliderRef.current?.slickNext()}
-              className="p-1 bg-white/10 rounded-lg text-white hover:bg-primary transition-colors"
-            >
-              <ChevronRight size={24} />
-            </button>
-          </div>
+          {title && (
+            <h2 className={`${titleClassName} font-semibold uppercase`}>
+              {title}
+            </h2>
+          )}
+
+          {isEnableNavigation && (
+            <div className="flex gap-2">
+              <button
+                onClick={() => sliderRef.current?.slickPrev()}
+                className={`${navButtonClassName} p-2 rounded-md bg-secondary text-white hover:bg-primary transition-colors cursor-pointer`}
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={() => sliderRef.current?.slickNext()}
+                className={`${navButtonClassName} p-2 rounded-md bg-secondary text-white hover:bg-primary transition-colors cursor-pointer`}
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+          )}
         </div>
-      ) : null}
+      )}
+
+      {/* Slider Core */}
       <div
         className={`${rounded ? "rounded-tl-[48px]" : ""} w-full overflow-hidden`}
       >
@@ -70,8 +106,24 @@ const SliderComponent = ({
           {children}
         </Slider>
       </div>
+
+      {/* Internal Pagination Dots */}
+      {isEnablePagination && (
+        <div className="flex justify-center gap-3 mt-5 mb-3">
+          {Array.from({ length: totalItems }).map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => sliderRef.current?.slickGoTo(idx)}
+              className={`cursor-pointer h-2 w-10 transition-all duration-300 rounded-full ${
+                currentSlide === idx ? "w-8 bg-primary" : "w-2 bg-[#B6B6B3]"
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
-};
+});
 
+SliderComponent.displayName = "SliderComponent";
 export default SliderComponent;
